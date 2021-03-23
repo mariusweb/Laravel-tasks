@@ -1,6 +1,10 @@
 <?php
 
+use App\Http\Controllers\MaterialController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TypeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,12 +36,19 @@ Route::get('/test', function () {
 Route::get('/test', function () {
     return view('search');
 });
-Route::get('/materials/{category?}', function ($category = null) {
+Route::get('/material/{category?}', function ($category = null) {
     return view('materials', ['category' => $category]);
 });
+
 // Route::get('/test', function () {
 //     return view('auth/reset-password');
 // });
 // Route::get('/test', function () {
 //     return view('auth/verify-email');
 // });
+Route::get('/users', [UserController::class, 'userNames']);
+Route::get('/insertTest', [MaterialController::class, 'insertMaterial']);
+
+Route::post('/tryToInsert', [MaterialController::class, 'insertMaterial']);
+
+Route::get('/all_materials', [MaterialController::class, 'selectTypeAndCategory']);
