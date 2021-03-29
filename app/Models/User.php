@@ -41,4 +41,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function materials()
+    {
+        return $this->belongsToMany(Material::class, 'requests')->withPivot('status');
+    }
 }

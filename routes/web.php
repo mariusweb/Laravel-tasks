@@ -5,6 +5,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TypeController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,4 +55,12 @@ Route::get('/insertTest', [MaterialController::class, 'insertMaterial']);
 
 Route::post('/tryToInsert', [MaterialController::class, 'insertMaterial']);
 
-Route::get('/all_materials', [MaterialController::class, 'selectTypeAndCategory']);
+Route::get(
+    '/all_materials',
+    [MaterialController::class, 'selectTypeAndCategory']
+)
+    ->middleware(['auth'])
+    ->name('materials');
+Route::get('/user_materials', [MaterialController::class, 'showUserMaterials']);
+Route::get('/search', [MaterialController::class, 'searchMaterials'])->middleware(['auth'])
+    ->name('search');

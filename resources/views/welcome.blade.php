@@ -396,6 +396,7 @@
             font-family: 'Nunito';
         }
     </style>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body class="antialiased">
@@ -407,6 +408,8 @@
             <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
             <a href="{{ route('logout') }}" class="text-sm text-gray-700 underline">Logout</a>
             <a href="{{ url('/users') }}" class="text-sm text-gray-700 underline">Users</a>
+            <a href="{{ route('materials') }}" class="text-sm text-gray-700 underline">Materials insert</a>
+            <a href="{{ route('search') }}" class="text-sm text-gray-700 underline">Search</a>
             @else
             <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
@@ -428,7 +431,7 @@
                     </g>
                 </svg>
             </div>
-
+            <div id="user"></div>
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-2">
                     <div class="p-6">
@@ -560,6 +563,7 @@
             </div>
         </div>
     </div>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 
 </html>

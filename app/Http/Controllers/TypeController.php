@@ -11,14 +11,4 @@ use App\Models\Category;
 
 class TypeController extends Controller
 {
-    public function getData()
-    {
-        $data = array();
-
-        $data['types'] = Type::all();
-
-        $data['categorys'] = Category::all();
-
-        return $data;
-    }
 }

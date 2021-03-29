@@ -8,27 +8,10 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Material;
 use App\Models\Type;
 use App\Models\Category;
+use App\Models\User;
 
-class TypeAndCategory
-{
-    public function getData()
-    {
-        $data = array();
-
-        $data['types'] = Type::all();
-
-        $data['categorys'] = Category::all();
-
-        return $data;
-    }
-}
 class MaterialController extends Controller
 {
-    private $repository;
-    public function __construct(TypeAndCategory $repository)
-    {
-        $this->repository = $repository;
-    }
 
     public function insertMaterial(Request $request)
     {
@@ -48,10 +31,43 @@ class MaterialController extends Controller
         $materials = Material::all();
         return view('materials', ['material_list' => $materials]);
     }
-    public function selectTypeAndCategory(TypeAndCategory $repository)
-    {
 
-        // $types = Type::all();
-        return view('materials')->with(['type_category_lists' => $this->repository->getData()]);
+    public function getTypesAndCategorys()
+    {
+        $data = array();
+        $data['types'] = Type::all();
+        $data['categorys'] = Category::all();
+        return $data;
+    }
+    public function selectTypeAndCategory()
+    {
+        return view('materials')->with(['type_category_lists' => $this->getTypesAndCategorys()]);
+    }
+
+    public function showUserMaterials()
+    {
+        $user = User::all()->get(1);
+        foreach ($user->materials as  $mats) {
+            echo $mats->pivot->status . "<br>";
+        }
+    }
+    public function searchMaterials(Request $request)
+    {
+        $searchKey = $request->get('search');
+        if ($searchKey == []) {
+            $viewSearch = array();
+        } else {
+            $viewSearch = Material::leftJoin('types', 'materials.type_id', '=', 'types.id')
+                ->leftJoin('categories', 'materials.category_id', '=', 'categories.id')
+                ->select('materials.name', 'categories.name as category', 'types.name as type', 'materials.addition_date', 'materials.link_to_material')
+                ->where('materials.name', 'LIKE', '%' . $searchKey . '%')
+                ->orWhere(function ($query) use ($searchKey) {
+                    $query->where('types.name', 'LIKE', '%' . $searchKey . '%');
+                })->orWhere(function ($query) use ($searchKey) {
+                    $query->where('categories.name', 'LIKE', '%' . $searchKey . '%');
+                })->get();
+        }
+
+        return view('search', ['search_results' => $viewSearch]);
     }
 }

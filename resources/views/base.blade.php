@@ -385,6 +385,7 @@
             }
         }
     </style>
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 
 <body>
@@ -393,9 +394,13 @@
         @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
             @auth
+            <a href="{{ route('logout') }}" class="text-sm text-gray-700 underline">Logout</a>
             <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
-            <a href="{{ route('reset-password') }}" class="text-sm text-gray-700 underline">Reset Password</a>
-            <a href="{{ route('verify-email') }}" class="text-sm text-gray-700 underline">Verify Email</a>
+            <a href="{{ url('/reset-password') }}" class="text-sm text-gray-700 underline">Reset Password</a>
+            <a href="{{ url('/verify-email') }}" class="text-sm text-gray-700 underline">Verify Email</a>
+            <a href="{{ url('/') }}" class="text-sm text-gray-700 underline">Home</a>
+            <a href="{{ route('materials') }}" class="text-sm text-gray-700 underline">Materials insert</a>
+            <a href="{{ route('search') }}" class="text-sm text-gray-700 underline">Search</a>
             @else
             <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Log in</a>
 
@@ -409,6 +414,7 @@
 
     <main>
         @yield('main')
+        <div id="user"></div>
 
     </main>
     <footer class="d-flex">
@@ -447,6 +453,7 @@
 
 
     <div>Pabaiga</div>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 
 </html>
