@@ -60,11 +60,12 @@ class MaterialController extends Controller
             $viewSearch = Material::leftJoin('types', 'materials.type_id', '=', 'types.id')
                 ->leftJoin('categories', 'materials.category_id', '=', 'categories.id')
                 ->select('materials.name', 'categories.name as category', 'types.name as type', 'materials.addition_date', 'materials.link_to_material')
-                ->where('materials.name', 'LIKE', '%' . $searchKey . '%')
-                ->orWhere(function ($query) use ($searchKey) {
-                    $query->where('types.name', 'LIKE', '%' . $searchKey . '%');
-                })->orWhere(function ($query) use ($searchKey) {
-                    $query->where('categories.name', 'LIKE', '%' . $searchKey . '%');
+                ->orWhere(function ($queryName) use ($searchKey) {
+                    $queryName->where('materials.name', 'LIKE', '%' . $searchKey . '%');
+                })->orWhere(function ($queryType) use ($searchKey) {
+                    $queryType->where('types.name', 'LIKE', '%' . $searchKey . '%');
+                })->orWhere(function ($queryCategory) use ($searchKey) {
+                    $queryCategory->where('categories.name', 'LIKE', '%' . $searchKey . '%');
                 })->get();
         }
 
