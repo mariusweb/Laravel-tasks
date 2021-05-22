@@ -20,7 +20,7 @@
 
         </tr>
 
-
+        {{Debugbar::info($search_results)}}
         @foreach ($search_results as $result)
         <tr>
             <td>{{$result['name']}}</td>
